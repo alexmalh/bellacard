@@ -28,7 +28,7 @@
       font-size: 1.8em;
       line-height: 1.6;
       font-weight: bold;
-      text-shadow: 0px 0px 0px rgba(0,0,0,0.7);
+      text-shadow: 0px 0px 4px rgba(0,0,0,0.7);
     }
 
     h1, h2, h3, p {
@@ -41,36 +41,63 @@
       border-radius: 10px;
       margin: 20px 0;
     }
+
+    #playOverlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(255, 255, 255, 0.95);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.5em;
+      font-weight: bold;
+      cursor: pointer;
+      z-index: 9999;
+    }
   </style>
 </head>
 <body>
 
-  <!-- Música de fundo em loop -->
-  <audio autoplay loop>
+  <!-- Overlay para iniciar música -->
+  <div id="playOverlay" onclick="iniciarMusica()">Clique para iniciar a música 🎵</div>
+
+  <!-- Áudio de fundo (sem loop nativo) -->
+  <audio id="musica">
     <source src="https://github.com/alexmalh/bellacard/raw/refs/heads/main/Voce2.mp3" type="audio/mpeg">
     Seu navegador não suporta áudio HTML5.
   </audio>
 
-  <!-- Imagem inicial -->
+  <!-- Conteúdo da página -->
   <img src="https://github.com/alexmalh/bellacard/blob/main/coracao.jpg?raw=true" alt="nosso coração">
-
   <h1>NOSSO TEMPO JUNTOS</h1>
   <h2>Desde 28 de abril de 2023:</h2>
 
-  <!-- Cronômetro com fundo animado -->
   <div id="cronometro-container">
     <div id="cronometro"></div>
   </div>
 
-  <!-- Frase romântica -->
   <h3>"O amor só é lindo quando encontramos alguém que</h3>
   <h3>nos transforme no melhor que podemos ser."</h3>
 
-  <!-- Imagem final -->
   <img src="https://github.com/alexmalh/bellacard/blob/main/image1.jpeg?raw=true" alt="eubella">
 
-  <!-- Script do cronômetro -->
   <script>
+    function iniciarMusica() {
+      const musica = document.getElementById("musica");
+      musica.currentTime = 0;
+      musica.play();
+      document.getElementById("playOverlay").style.display = "none";
+
+      // Reinicia a música a cada 56 segundos
+      setInterval(() => {
+        musica.currentTime = 0;
+        musica.play();
+      }, 56000);
+    }
+
     const dataInicio = new Date("2023-04-28T00:00:00");
 
     function atualizarCronometro() {
